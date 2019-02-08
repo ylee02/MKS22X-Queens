@@ -60,13 +60,19 @@ public class QueenBoard {
       return false;
     }
     if (addQueen(r,c)) {
-      return helper(ans + 1, r, c+1);
+      if helper(ans + 1, r, c+1) {
+        return true;
+      }
+      else {
+        removeQueen(r,c);
+        return helper(ans,r +1, c);
+
+      }
     }
     else {
-      removeQueen(r,c);
-
-      return helper(ans,r + 1,c);
+      return helper(ans,r +1, c);
     }
+
   }
 
   public int countSolutions() {
