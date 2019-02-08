@@ -49,7 +49,24 @@ public class QueenBoard {
   }
 
   public boolean solve() {
-    return true;
+    return helper(0,0,0);
+  }
+
+  public boolean helper(int ans, int r, int c) {
+    if (ans == board.length) {
+      return true;
+    }
+    if (r >= board.length || c >= board[0].length) {
+      return false;
+    }
+    if (addQueen(r,c)) {
+      return helper(ans + 1, r, c+1);
+    }
+    else {
+      removeQueen(r,c);
+
+      return helper(ans,r + 1,c);
+    }
   }
 
   public int countSolutions() {
