@@ -24,12 +24,12 @@ public class QueenBoard {
     }
   }
 
-  private boolean removeQueen(int r, int c) {
+  public boolean removeQueen(int r, int c) {
     if (board[r][c] == -1) {
       board[r][c] = 0;
       for (int i = 0; i < board.length; i++) {
         for (int y = 0; y < board[r].length; y++) {
-          if (i == r || (i - r == y - c)) {
+          if ((i == r || (i - r == y - c)) && (y >= c || i > r) && board[i][y] != 0) {
             board[i][y] -= 1;
           }
         }
