@@ -20,12 +20,8 @@ public class QueenBoard {
           }
         }
       }
-      for (int i = 0; i < board.length; i++) {
-      for (int y = 0; y < board[i].length; y++) {
-        System.out.print(board[i][y] + " ");
-      }
-      System.out.println(" ");
-    }
+      
+    
       return true;
     }
     else {
@@ -74,7 +70,15 @@ public class QueenBoard {
   }
   public String toString() {
     String ans = "[";
-    for (int i = 0; i < board.length; i++) {}
+    for (int i = 0; i < board.length; i++) {
+      ans += "[" + board[i][0];
+      for (int y = 1; y < board.length; y++) {
+        ans += ", " + board[i][y];
+      }
+      ans += "]\n";
+    }
+    ans += "]";
+    return ans;
   }
 
   public boolean solve() {
@@ -108,7 +112,7 @@ public class QueenBoard {
     }
     for (int i = 0; i < board.length; i++) {
       if (addQueen(i, c)) {
-        ans +=(helper(c + 1)) 
+        ans += helper2(c + 1);
         removeQueen(i, c);
       }
     }
