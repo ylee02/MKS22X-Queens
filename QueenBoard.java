@@ -8,15 +8,24 @@ public class QueenBoard {
     board = new int[size][size];
   }
   public boolean addQueen(int r, int c) {
+    if (c >= board.length || r >= board.length) {
+      return false;
+    }
     if (board[r][c] == 0) {
       board[r][c] = -1;
       for (int i = 0; i < board.length; i++) {
         for (int y = 0; y < board[r].length; y++) {
-          if ((i == r || (i - r == y - c)) && (y > c || i > r))  {
+          if ((i == r || (i - r == y - c) || ((-1 * (i-r) == y-c) && y > c)) && (y > c || i > r) )  {
             board[i][y] += 1;
           }
         }
       }
+      for (int i = 0; i < board.length; i++) {
+      for (int y = 0; y < board[i].length; y++) {
+        System.out.print(board[i][y] + " ");
+      }
+      System.out.println(" ");
+    }
       return true;
     }
     else {
@@ -25,11 +34,14 @@ public class QueenBoard {
   }
 
   public boolean removeQueen(int r, int c) {
+    if (c >= board.length || r >= board.length) {
+      return false;
+    }
    if (board[r][c] == -1) {
       board[r][c] = 0;
       for (int i = 0; i < board.length; i++) {
         for (int y = 0; y < board[r].length; y++) {
-          if ((i == r || (i - r == y - c)) && (y >= c || i > r) && board[i][y] != 0) {
+          if ((i == r || (i - r == y - c) || (-1 * (i-r) == y-c)) && (y > c || i > r) && board[i][y] != 0)  {
             board[i][y] -= 1;
           }
         }
@@ -40,38 +52,67 @@ public class QueenBoard {
       return false;
     }
   }
+  
+  public void clear() {
+    int[][] temp = new int[board.length][board.length];
+    board = temp;
+  }
+  
+  public void isCleared() {
+    for (int i = 0; i < board.length; i++) {
+      for (int y = 0; y < board.length; y++) {
+        if (board[i][y] != 0) {
+          throw new IllegalStateException(); 
+        } 
+      }
+    }
+  }
 
 
   public int[][] getBoard() {
     return board;
   }
   public String toString() {
-    return "";
+    String ans = "[";
+    for (int i = 0; i < board.length; i++) {}
   }
 
   public boolean solve() {
-    return helper(0,0,0);
+    return helper(0);
   }
 
-  public boolean helper(int ans, int r, int c) {
-    if (c == board.length) {
+  public boolean helper(int c) {
+    if (c >= board.length) {
       return true;
     }
-    if (r >= board.length || c >= board[0].length) {
-      return false;
-    }
-    if (addQueen(r,c)) {
-      if (helper(ans + 1, r, c+1)) {
-        return true;
+    for (int i = 0; i < board.length; i++) {
+      if (addQueen(i, c)) {
+        if (helper(c + 1)) {
+          return true;
+        }
+        removeQueen(i, c);
       }
     }
-    removeQueen(r,c);
-    return helper(ans,r +1, c);
-
+    return false;
+    
   }
 
   public int countSolutions() {
-    return 0;
+    return helper2(0);
+  }
+  
+  public int helper2(int c) {
+    int ans = 0;
+    if (c >= board.length) {
+      return 1;
+    }
+    for (int i = 0; i < board.length; i++) {
+      if (addQueen(i, c)) {
+        ans +=(helper(c + 1)) 
+        removeQueen(i, c);
+      }
+    }
+    return ans;
   }
 
 }
