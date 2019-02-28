@@ -15,7 +15,7 @@ public class QueenBoard {
       board[r][c] = -1;
       for (int i = 0; i < board.length; i++) {
         for (int y = 0; y < board[r].length; y++) {
-          if ((i == r || (i - r == y - c) || ((-1 * (i-r) == y-c) && y > c)) && (y > c || i > r) )  {
+          if ((i == r || (i - r == y - c) || ((-1 * (i-r) == y-c) && y > c)) && (y > c ) )  {
             board[i][y] += 1;
           }
         }
@@ -37,8 +37,10 @@ public class QueenBoard {
       board[r][c] = 0;
       for (int i = 0; i < board.length; i++) {
         for (int y = 0; y < board[r].length; y++) {
-          if ((i == r || (i - r == y - c) || (-1 * (i-r) == y-c)) && (y > c || i > r) && board[i][y] != 0)  {
-            board[i][y] -= 1;
+          if ((i == r || (i - r == y - c) || (-1 * (i-r) == y-c)) && (y > c ) && board[i][y] != 0)  {
+            if (board[i][y] > 0) {
+				board[i][y] -= 1;
+			}
           }
         }
       }
@@ -106,20 +108,25 @@ public class QueenBoard {
   }
   
   public int helper2(int c) {
-	  int ans = 0;
-    for (int i = 0; i < board.length; i++) {
-		for (int y= 0; y < board.length; y++) {
-		  if (addQueen(i, y)) {
-			  if (i > board.length - 1) {
-				ans += 1;
-			  }
-		  }
-		  removeQueen(i, y);
-		}
+    if (c == board.length) {
+		
+		return 1;
 	}
-    return ans;
-	
-	
+    else{
+      int ans = 0;
+      for (int i = 0; i < board.length; i++){
+        if (addQueen(i, c)){
+          ans+= helper2(c + 1);
+		  
+        }
+		removeQueen(i,c);
+      }
+      return ans;
+    }
   }
+    
+	
+	
+
 
 }
