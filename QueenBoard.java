@@ -106,17 +106,20 @@ public class QueenBoard {
   }
   
   public int helper2(int c) {
-    int ans = 0;
-    if (c >= board.length) {
-      return 1;
-    }
+	  int ans = 0;
     for (int i = 0; i < board.length; i++) {
-      if (addQueen(i, c)) {
-        ans += helper2(c + 1);
-        removeQueen(i, c);
-      }
-    }
+		for (int y= 0; y < board.length; y++) {
+		  if (addQueen(i, y)) {
+			  if (i > board.length - 1) {
+				ans += 1;
+			  }
+		  }
+		  removeQueen(i, y);
+		}
+	}
     return ans;
+	
+	
   }
 
 }
